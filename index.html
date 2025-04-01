@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+ body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.stack-container {
+  position: relative;
+  width: 350px;
+  height: 350px;
+  bottom:100px;
+}
+
+.stack-layer {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  background: url('Rectangle%2040198.png') no-repeat center;
+  background-size: contain;
+  transform: rotate(45deg) rotate3d(50, 50, 40, 180deg);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border:6px solid #F1E9E2;
+  transition:all 1s ease;
+}
+
+.layer1 {
+  top: 0;
+  background-color:rgb(181, 97, 0);
+  z-index:3;
+  transition:all 1s ease;
+}
+
+.layer2 {
+  top: 120px;
+  background-color: #cfb12c;
+  z-index:2;
+  transition:all 1s ease;
+}
+
+.layer3 {
+  top: 180px;
+  background-color: #fddb41;
+  z-index:1;
+  transition:all 1s ease;
+}
+.circle{
+    border: 6px solid white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: absolute;
+    right: 20%;
+    /* transform: rotate3d(32, 32, 1, 60deg); */
+    transition: opacity 0.5s ease; /* Smooth fade effect */
+    transform:translateX(-74px) translateY(205px);
+    z-index: 99;
+    transition:transform 0.5s ease;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="stack-container">
+        
+        <div class="stack-layer layer1">
+         
+        </div>
+        <div class="stack-layer layer2">
+        </div>
+        <div class="stack-layer layer3">
+        </div>
+        <div class="circle circle1 "></div>
+    </div>
+    <script src="index.js"></script>
+
+  <script>
+       const layer1 = document.querySelector('.layer1');
+        const layer2 = document.querySelector('.layer2');
+        const layer3 = document.querySelector('.layer3');
+        const circle = document.querySelector('.circle');
+
+        // Define positions for each state
+        const states = [
+            {
+                layer1: { top: '0px' },
+                layer2: { top: '120px' },
+                layer3: { top: '180px' },
+                circle: { translateX: '-74px', translateY: '205px' }
+            },
+            {
+                layer1: { top: '0px' },
+                layer2: { top: '120px' },
+                layer3: { top: '240px' },
+                circle: { translateX: '-74px', translateY: '338px' }
+            },
+            {
+                layer1: { top: '0px' },
+                layer2: { top: '80px' },
+                layer3: { top: '240px' },
+                circle: { translateX: '-74px', translateY: '444px' }
+            }
+        ];
+
+        let currentStateIndex = 0;
+
+        function updatePositions() {
+            // Get the current state
+            const state = states[currentStateIndex];
+
+            // Update layer positions
+            layer1.style.top = state.layer1.top;
+            layer2.style.top = state.layer2.top;
+            layer3.style.top = state.layer3.top;
+
+            // Update circle position
+            circle.style.transform = `translateX(${state.circle.translateX}) translateY(${state.circle.translateY})`;
+
+            // Move to the next state (loop back to the beginning)
+            currentStateIndex = (currentStateIndex + 1) % states.length;
+        }
+
+        // Start the animation loop
+        setInterval(updatePositions, 4000);
+  </script>
+</body>
+</html>
