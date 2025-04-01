@@ -66,7 +66,23 @@
     z-index: 99;
     transition:transform 0.5s ease;
 }
+@media only screen and (max-width:768px){
+  .stack-layer{
+    width: 190px;
+    height: 190px;
+  }
+  .stack-container {
+  position: relative;
+  width: 190px;
+  height: 190px;
+}
+ .circle{
+  width:30px;
+  height:30px;
+  right:14%;
 
+}
+}
 
     </style>
 </head>
@@ -84,54 +100,104 @@
     </div>
     <script src="index.js"></script>
 
-  <script>
-       const layer1 = document.querySelector('.layer1');
-        const layer2 = document.querySelector('.layer2');
-        const layer3 = document.querySelector('.layer3');
-        const circle = document.querySelector('.circle');
-
-        // Define positions for each state
-        const states = [
-            {
-                layer1: { top: '0px' },
-                layer2: { top: '120px' },
-                layer3: { top: '180px' },
-                circle: { translateX: '-74px', translateY: '205px' }
-            },
-            {
-                layer1: { top: '0px' },
-                layer2: { top: '120px' },
-                layer3: { top: '240px' },
-                circle: { translateX: '-74px', translateY: '338px' }
-            },
-            {
-                layer1: { top: '0px' },
-                layer2: { top: '80px' },
-                layer3: { top: '240px' },
-                circle: { translateX: '-74px', translateY: '444px' }
-            }
-        ];
-
-        let currentStateIndex = 0;
-
-        function updatePositions() {
-            // Get the current state
-            const state = states[currentStateIndex];
-
-            // Update layer positions
-            layer1.style.top = state.layer1.top;
-            layer2.style.top = state.layer2.top;
-            layer3.style.top = state.layer3.top;
-
-            // Update circle position
-            circle.style.transform = `translateX(${state.circle.translateX}) translateY(${state.circle.translateY})`;
-
-            // Move to the next state (loop back to the beginning)
-            currentStateIndex = (currentStateIndex + 1) % states.length;
-        }
-
-        // Start the animation loop
-        setInterval(updatePositions, 4000);
+    <script>
+      const layer1 = document.querySelector('.layer1');
+          const layer2 = document.querySelector('.layer2');
+          const layer3 = document.querySelector('.layer3');
+          const circle = document.querySelector('.circle');
+          const tabs = document.querySelectorAll('.ltab-conte');
+          const listItems = document.querySelectorAll('.tab-list li');
+  
+          // Define positions for each state
+          const desktopStates = [
+              {
+                  layer1: { top: '0px' },
+                  layer2: { top: '120px' },
+                  layer3: { top: '180px' },
+                  circle: { translateX: '-75px', translateY: '200px' },
+                  activeTab: 'tab-1',
+                  activeList: 'list1'
+              },
+              {
+                  layer1: { top: '0px' },
+                  layer2: { top: '120px' },
+                  layer3: { top: '240px' },
+                  circle: { translateX: '-75px', translateY: '320px' },
+                  activeTab: 'tab-2',
+                  activeList: 'list2'
+              },
+              {
+                  layer1: { top: '0px' },
+                  layer2: { top: '80px' },
+                  layer3: { top: '240px' },
+                  circle: { translateX: '-75px', translateY: '420px' },
+                  activeTab: 'tab-3',
+                  activeList: 'list3'
+              }
+          ];
+          const mobileStates = [
+           { 
+           layer1: { top: '0px' }, 
+           layer2: { top: '80px' }, 
+           layer3: { top: '120px' }, 
+           circle: { translateX: '-42px', translateY: '100px' }, 
+           activeTab: 'tab-1', 
+           activeList: 'list1' 
+           },
+           { 
+           layer1: { top: '0px' },
+           layer2: { top: '80px' },
+           layer3: { top: '160px' },
+           circle: { translateX: '-42px', translateY: '180px' },
+           activeTab: 'tab-2', 
+           activeList: 'list2' },
+           { 
+           layer1: { top: '0px' }, 
+           layer2: { top: '40px' },
+           layer3: { top: '160px' },
+           circle: { translateX: '-42px', translateY: '260px' },
+           activeTab: 'tab-3',
+           activeList: 'list3' },
+          ];
+  
+          let currentStateIndex = 0;
+  
+          function updatePositions() {
+           const isMobile = window.innerWidth <= 768;
+           const states = isMobile ? mobileStates : desktopStates;
+              // Get the current state
+              const state = states[currentStateIndex];
+  
+              // Update layer positions
+              layer1.style.top = state.layer1.top;
+              layer2.style.top = state.layer2.top;
+              layer3.style.top = state.layer3.top;
+  
+              // Update circle position
+              circle.style.transform = `translateX(${state.circle.translateX}) translateY(${state.circle.translateY})`;
+  
+              // Update active tab
+              tabs.forEach(tab => {
+                  tab.classList.add('active1');
+                  tab.classList.remove('slide-down');
+                  if (tab.id === state.activeTab) {
+                      tab.classList.remove('active1');
+                      tab.classList.add('slide-down');
+                  }
+              });
+              listItems.forEach(item => {
+                  item.classList.remove('active');
+                  if (item.id === state.activeList) {
+                      item.classList.add('active');
+                  }
+              });
+  
+              // Move to the next state (loop back to the beginning)
+              currentStateIndex = (currentStateIndex + 1) % states.length;
+          }
+  
+          // Start the animation loop
+          setInterval(updatePositions, 2000);
   </script>
 </body>
 </html>
